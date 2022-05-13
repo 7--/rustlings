@@ -26,6 +26,7 @@ impl ParsePosNonzeroError {
     fn new(e: ParseIntError) -> ParsePosNonzeroError {
         ParsePosNonzeroError::ParseInt(e)
     }
+
 }
 
 fn parse_pos_nonzero(s: &str) -> Result<PositiveNonzeroInteger, ParsePosNonzeroError> {

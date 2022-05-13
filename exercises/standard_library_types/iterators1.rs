@@ -19,4 +19,5 @@ fn main () {
     assert_eq!(my_iterable_fav_fruits.next(), Some(&"peach"));     // TODO: Step 2.1
     assert_eq!(my_iterable_fav_fruits.next(), Some(&"raspberry"));
     assert_eq!(my_iterable_fav_fruits.next(), None);     // TODO: Step 3
+
 }
