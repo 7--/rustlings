@@ -10,7 +10,6 @@
 //
 // Make the code compile and the tests pass.
 
-// I AM NOT DONE
 
 use std::collections::HashMap;
 
@@ -54,8 +53,8 @@ fn count_collection_iterator(collection: &[HashMap<String, Progress>], value: Pr
     // collection is a slice of hashmaps.
     // collection = [{ "variables1": Complete, "from_str": None, ... },
     //     { "variables2": Complete, ... }, ... ]
-    collection.into_iter().fold(0, |_,progress| **progress==value);
-    0
+    collection.into_iter().fold(0, |accum,progress| accum + count_iterator(progress, value))
+    
 }
 
 #[cfg(test)]
