@@ -16,9 +16,9 @@
 // 4. Complete the partial implementation of `Display` for
 //    `ParseClimateError`.
 
-// I AM NOT DONE
 
 use std::error::Error;
+use std::error;
 use std::fmt::{self, Display, Formatter};
 use std::num::{ParseFloatError, ParseIntError};
 use std::str::FromStr;
@@ -110,7 +110,15 @@ impl FromStr for Climate {
 }
 
 impl Error for ParseClimateError{
-
+    fn source(&self) -> Option<&(dyn error::Error + 'static)> {
+        match *self {
+            ParseClimateError::Empty => None,
+            ParseClimateError::BadLen => None,
+            ParseClimateError::NoCity => None,
+            ParseClimateError::ParseFloat(ref e) => Some(e),
+            ParseClimateError::ParseInt(ref e) => Some(e)
+        }
+    }
 }
 // Don't change anything below this line (other than to enable ignored
 // tests).
