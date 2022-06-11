@@ -47,6 +47,7 @@ impl From<ParseIntError> for ParseClimateError {
 impl From<ParseFloatError> for ParseClimateError {
     fn from(e: ParseFloatError) -> Self {
         // TODO: Complete this function
+        Self::ParseFloat(e)
     }
 }
 
@@ -63,6 +64,9 @@ impl Display for ParseClimateError {
         use ParseClimateError::*;
         match self {
             NoCity => write!(f, "no city name"),
+            Empty => write!(f, "empty"),
+            BadLen => write!(f, "BadLen"),
+            ParseInt(e) => write!(f, "error parsing temperature: {}", e),
             ParseFloat(e) => write!(f, "error parsing temperature: {}", e),
         }
     }
@@ -89,6 +93,9 @@ impl FromStr for Climate {
     // cases.
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         let v: Vec<_> = s.split(',').collect();
+        // if v.len() != 3 {
+        //     return Err(ParseClimateError::BadLen);
+        // }
         let (city, year, temp) = match &v[..] {
             [city, year, temp] => (city.to_string(), year, temp),
             _ => return Err(ParseClimateError::BadLen),

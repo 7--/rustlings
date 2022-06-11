@@ -10,8 +10,6 @@
 
 use std::num::ParseIntError;
 
-use std::prelude;
-
 // This is a custom error type that we will be using in `parse_pos_nonzero()`.
 #[derive(PartialEq, Debug)]
 enum ParsePosNonzeroError {

@@ -1,13 +1,10 @@
 // advanced_errs1.rs
-
 // Remember back in errors6, we had multiple mapping functions so that we
 // could translate lower-level errors into our custom error type using
 // `map_err()`? What if we could use the `?` operator directly instead?
 
 // Make this code compile! Execute `rustlings hint advanced_errs1` for
 // hints :)
-
-// I AM NOT DONE
 
 use std::num::ParseIntError;
 use std::str::FromStr;
@@ -24,6 +21,15 @@ impl From<CreationError> for ParsePosNonzeroError {
     fn from(e: CreationError) -> Self {
         // TODO: complete this implementation so that the `?` operator will
         // work for `CreationError`
+        ParsePosNonzeroError::Creation(e)
+    }
+}
+
+impl From<ParseIntError> for ParsePosNonzeroError {
+    fn from(e: ParseIntError) -> Self {
+        // TODO: complete this implementation so that the `?` operator will
+        // work for `CreationError`
+        ParsePosNonzeroError::ParseInt(e)
     }
 }
 
