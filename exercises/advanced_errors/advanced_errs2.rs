@@ -64,9 +64,9 @@ impl Display for ParseClimateError {
         use ParseClimateError::*;
         match self {
             NoCity => write!(f, "no city name"),
-            Empty => write!(f, "empty"),
-            BadLen => write!(f, "BadLen"),
-            ParseInt(e) => write!(f, "error parsing temperature: {}", e),
+            Empty => write!(f, "empty input"),
+            BadLen => write!(f, "incorrect number of fields"),
+            ParseInt(e) => write!(f, "error parsing year: {}", e),
             ParseFloat(e) => write!(f, "error parsing temperature: {}", e),
         }
     }
@@ -93,9 +93,12 @@ impl FromStr for Climate {
     // cases.
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         let v: Vec<_> = s.split(',').collect();
-        // if v.len() != 3 {
-        //     return Err(ParseClimateError::BadLen);
-        // }
+        if s.is_empty() {
+            return Err(ParseClimateError::Empty);
+        }
+        if v[0].is_empty() {
+            return Err(ParseClimateError::NoCity);
+        }
         let (city, year, temp) = match &v[..] {
             [city, year, temp] => (city.to_string(), year, temp),
             _ => return Err(ParseClimateError::BadLen),
@@ -106,6 +109,9 @@ impl FromStr for Climate {
     }
 }
 
+impl Error for ParseClimateError{
+
+}
 // Don't change anything below this line (other than to enable ignored
 // tests).
 
@@ -197,7 +203,6 @@ mod test {
         );
     }
     #[test]
-    #[ignore]
     fn test_downcast() {
         let res = "São Paulo,-21,28.5".parse::<Climate>();
         assert!(matches!(res, Err(ParseClimateError::ParseInt(_))));
